@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Learning Journey</title>
+    <meta property="og:title" content="Kubernetes Learning Journey">
+    <meta property="og:description" content="From Zero to Hero: Master Container Orchestration">
+    <meta property="og:type" content="website">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #326ce5;
+            --secondary: #54b4d3;
+            --dark: #2a2f45;
+            --light: #f8f9fa;
+            --success: #28a745;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .learning-path {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin: 30px 0;
+        }
+        
+        .module {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 10px;
+            min-width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        
+        .module h3 {
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .module-content {
+            margin-bottom: 20px;
+        }
+        
+        .resources {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+        
+        .resource-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #2857b8;
+        }
+        
+        .visual-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .visual-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+        
+        .visual-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .visual-card-content {
+            padding: 20px;
+        }
+        
+        .progress-tracker {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 1s;
+        }
+        
+        .interactive-demo {
+            background: var(--dark);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .interactive-demo a {
+            color: #54b4d3;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        
+        .interactive-demo a:hover {
+            color: #7bc9e2;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #6c757d;
+        }
+        
+        /* Module content sections */
+        .module-detail {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            display: none; /* Hidden by default */
+        }
+        
+        .module-detail.active {
+            display: block; /* Show when active */
+        }
+        
+        .module-detail h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .lesson {
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary);
+            padding-left: 20px;
+        }
+        
+        .lesson h3 {
+            margin-top: 0;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .visual-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .learning-path {
+                flex-direction: column;
+            }
+            
+            .module {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Kubernetes Learning Journey</h1>
+            <p class="subtitle">From Zero to Hero: Master Container Orchestration</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="progress-tracker">
+            <h2>Your Learning Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <p>Track your journey through the world of Kubernetes</p>
+        </div>
+        
+        <h2>Learning Path</h2>
+        <div class="learning-path">
+            <!-- Module 1 -->
+            <div class="module">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <h3>Module 1: Foundations</h3>
+                </div>
+                <div class="module-content">
+                    <p>Understanding containers, Docker basics, and why Kubernetes exists</p>
+                    <div class="resources">
+                        <h4>Learning Resources</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=PziYflu8cB8" target="_blank">Kubernetes Explained in 100 Seconds</a>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-docker"></i>
+                            </div>
+                            <a href="https://docs.docker.com/get-started/" target="_blank">Docker Fundamentals</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn module-btn" data-module="module1">Start Learning</button>
+            </div>
+            
+            <!-- Module 2 -->
+            <div class="module">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>Module 2: Architecture</h3>
+                </div>
+                <div class="module-content">
+                    <p>Kubernetes components, cluster architecture, and key concepts</p>
+                    <div class="resources">
+                        <h4>Learning Resources</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=umXEmn3cMWY" target="_blank">Kubernetes Architecture Explained</a>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <a href="https://kubernetes.io/docs/concepts/overview/components/" target="_blank">K8s Components Guide</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn module-btn" data-module="module2">Explore Architecture</button>
+            </div>
+            
+            <!-- Module 3 -->
+            <div class="module">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Module 3: Hands-On Basics</h3>
+                </div>
+                <div class="module-content">
+                    <p>Setting up your first cluster, deploying applications, and basic operations</p>
+                    <div class="resources">
+                        <h4>Learning Resources</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank">Minikube Setup Guide</a>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=X48VuDVv0do" target="_blank">Kubernetes Crash Course</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn module-btn" data-module="module3">Get Hands-On</button>
+            </div>
+            
+            <!-- Module 4 -->
+            <div class="module">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Module 4: Workloads & Networking</h3>
+                </div>
+                <div class="module-content">
+                    <p>Pods, deployments, services, and how networking works in Kubernetes</p>
+                    <div class="resources">
+                        <h4>Learning Resources</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=5cNrTU6o3Fw" target="_blank">Kubernetes Networking Explained</a>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <a href="https://kubernetes.io/docs/concepts/workloads/pods/" target="_blank">Pods Documentation</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn module-btn" data-module="module4">Learn Workloads</button>
+            </div>
+            
+            <!-- Module 5 -->
+            <div class="module">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Module 5: Advanced Topics</h3>
+                </div>
+                <div class="module-content">
+                    <p>Storage, configuration, security, and scaling your applications</p>
+                    <div class="resources">
+                        <h4>Learning Resources</h4>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <a href="https://www.youtube.com/watch?v=0swOh5C3OVM" target="_blank">K8s Storage Options</a>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank">Kubernetes Secrets</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn module-btn" data-module="module5">Go Advanced</button>
+            </div>
+        </div>
+        
+        <!-- Module Content Sections -->
+        <div id="module1" class="module-detail">
+            <h2>Module 1: Foundations of Kubernetes</h2>
+            
+            <div class="lesson">
+                <h3>Lesson 1: What are Containers?</h3>
+                <p>Containers are lightweight, standalone, executable software packages that include everything needed to run a piece of software: code, runtime, system tools, libraries, and settings.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-box fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Container vs VM</h3>
+                            <p>Containers share the host OS kernel while VMs include the entire OS</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/0qotVMX-J5s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Containers Explained</h3>
+                            <p>A visual explanation of container technology</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 2: Introduction to Docker</h3>
+                <p>Docker is the most popular containerization platform that allows you to build, ship, and run containers.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/gAkwW2tuIqE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Docker in 7 Minutes</h3>
+                            <p>Quick introduction to Docker concepts</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fab fa-docker fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Key Docker Commands</h3>
+                            <ul>
+                                <li><code>docker build</code> - Build an image</li>
+                                <li><code>docker run</code> - Run a container</li>
+                                <li><code>docker ps</code> - List containers</li>
+                                <li><code>docker images</code> - List images</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 3: Why Kubernetes?</h3>
+                <p>Kubernetes solves the problem of orchestrating containers at scale, providing automated deployment, scaling, and management.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-dharmachakra fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Benefits of Kubernetes</h3>
+                            <ul>
+                                <li>Automated scaling</li>
+                                <li>Self-healing capabilities</li>
+                                <li>Service discovery and load balancing</li>
+                                <li>Automated rollouts and rollbacks</li>
+                                <li>Configuration management</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/PH-2FfFD2PU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Why Kubernetes?</h3>
+                            <p>Understanding the need for container orchestration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="module2" class="module-detail">
+            <h2>Module 2: Kubernetes Architecture</h2>
+            
+            <div class="lesson">
+                <h3>Lesson 1: Cluster Components</h3>
+                <p>A Kubernetes cluster consists of a control plane (master) and worker nodes that run your applications.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-server fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Control Plane Components</h3>
+                            <ul>
+                                <li>API Server - The front-end of Kubernetes</li>
+                                <li>etcd - Distributed key-value store</li>
+                                <li>Scheduler - Assigns workloads to nodes</li>
+                                <li>Controller Manager - Regulates the state</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-microchip fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Node Components</h3>
+                            <ul>
+                                <li>Kubelet - Node agent</li>
+                                <li>Container Runtime - Docker, containerd</li>
+                                <li>Kube-proxy - Network proxy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 2: Kubernetes Objects</h3>
+                <p>Kubernetes objects are persistent entities that represent the state of your cluster.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/aSrqRSk43lY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Kubernetes Objects Explained</h3>
+                            <p>Understanding the basic building blocks</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-cubes fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Key Kubernetes Objects</h3>
+                            <ul>
+                                <li>Pods - Smallest deployable units</li>
+                                <li>Deployments - Manage pod replicas</li>
+                                <li>Services - Network abstraction</li>
+                                <li>ConfigMaps & Secrets - Configuration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="module3" class="module-detail">
+            <h2>Module 3: Hands-On Kubernetes Basics</h2>
+            
+            <div class="lesson">
+                <h3>Lesson 1: Setting Up Your First Cluster</h3>
+                <p>Learn how to set up a local Kubernetes cluster using Minikube for development and testing.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/E2pP1MOfo3g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Minikube Setup Tutorial</h3>
+                            <p>Step-by-step guide to setting up Minikube</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-terminal fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Basic Setup Commands</h3>
+                            <pre><code>
+# Install Minikube
+brew install minikube
+
+# Start cluster
+minikube start
+
+# Check status
+minikube status
+
+# Access dashboard
+minikube dashboard
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 2: Deploying Your First Application</h3>
+                <p>Learn how to deploy a simple application to your Kubernetes cluster.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-rocket fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Deployment Process</h3>
+                            <ol>
+                                <li>Create a deployment YAML file</li>
+                                <li>Apply the configuration</li>
+                                <li>Expose the application</li>
+                                <li>Access your application</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-code fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Sample Deployment YAML</h3>
+                            <pre><code>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="module4" class="module-detail">
+            <h2>Module 4: Workloads & Networking</h2>
+            
+            <div class="lesson">
+                <h3>Lesson 1: Understanding Pods</h3>
+                <p>Pods are the smallest deployable units in Kubernetes that can be created and managed.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/5cNrTU6o3Fw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Pods Deep Dive</h3>
+                            <p>Understanding the fundamental unit of Kubernetes</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-cube fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Pod Characteristics</h3>
+                            <ul>
+                                <li>Shared network namespace</li>
+                                <li>Shared storage volumes</li>
+                                <li>Co-located containers</li>
+                                <li>Ephemeral by nature</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 2: Kubernetes Networking</h3>
+                <p>Kubernetes has a unique networking model that enables communication between pods, services, and the outside world.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-network-wired fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Networking Principles</h3>
+                            <ul>
+                                <li>Every Pod gets its own IP address</li>
+                                <li>Pods can communicate without NAT</li>
+                                <li>Agents on a node can communicate with all pods</li>
+                                <li>Services enable stable networking</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/tgvLMmUDUJE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Kubernetes Networking Model</h3>
+                            <p>Visual explanation of how networking works</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="module5" class="module-detail">
+            <h2>Module 5: Advanced Kubernetes Topics</h2>
+            
+            <div class="lesson">
+                <h3>Lesson 1: Storage in Kubernetes</h3>
+                <p>Kubernetes provides various storage options to persist data beyond the lifecycle of pods.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/0swOh5C3OVM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Kubernetes Storage Options</h3>
+                            <p>Understanding persistent volumes and claims</p>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-database fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Storage Concepts</h3>
+                            <ul>
+                                <li>Volumes - Basic storage abstraction</li>
+                                <li>PersistentVolumes - Cluster storage</li>
+                                <li>PersistentVolumeClaims - Storage requests</li>
+                                <li>StorageClasses - Dynamic provisioning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lesson">
+                <h3>Lesson 2: Security Best Practices</h3>
+                <p>Securing your Kubernetes cluster is essential for protecting your applications and data.</p>
+                <div class="visual-section">
+                    <div class="visual-card">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-shield-alt fa-5x" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="visual-card-content">
+                            <h3>Security Layers</h3>
+                            <ul>
+                                <li>RBAC - Role-Based Access Control</li>
+                                <li>Network Policies - Traffic control</li>
+                                <li>Pod Security Policies</li>
+                                <li>Secrets Management</li>
+                                <li>Image Security</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="visual-card">
+                        <iframe width="100%" height="180" src="https://www.youtube.com/embed/YRR-kZub0cA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="visual-card-content">
+                            <h3>Kubernetes Security Best Practices</h3>
+                            <p>Comprehensive guide to securing your cluster</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Visual Learning Center</h2>
+        <div class="visual-section">
+            <div class="visual-card">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-sitemap fa-5x" style="color: var(--primary);"></i>
+                </div>
+                <div class="visual-card-content">
+                    <h3>Kubernetes Architecture</h3>
+                    <p>Visual breakdown of all components in a Kubernetes cluster</p>
+                    <button class="btn module-btn" data-module="module2">Explore Architecture</button>
+                </div>
+            </div>
+            
+            <div class="visual-card">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-cubes fa-5x" style="color: var(--primary);"></i>
+                </div>
+                <div class="visual-card-content">
+                    <h3>Nodes & Pods</h3>
+                    <p>Understanding the relationship between nodes and pods</p>
+                    <button class="btn module-btn" data-module="module4">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="visual-card">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-rocket fa-5x" style="color: var(--primary);"></i>
+                </div>
+                <div class="visual-card-content">
+                    <h3>Deployment Process</h3>
+                    <p>How applications get deployed in Kubernetes</p>
+                    <button class="btn module-btn" data-module="module3">Understand Deployments</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="interactive-demo">
+            <h2>Interactive Learning</h2>
+            <p>Practice Kubernetes commands and see real-time results with these interactive tutorials</p>
+            <div class="resources">
+                <div class="resource-item">
+                    <div class="resource-icon">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/" target="_blank">Interactive Kubernetes Tutorial</a>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <a href="https://www.katacoda.com/courses/kubernetes" target="_blank">Katacoda Kubernetes Playground</a>
+                </div>
+                <div class="resource-item">
+                    <div class="resource-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <a href="https://labs.play-with-k8s.com/" target="_blank">Play with Kubernetes</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Video Learning Path</h2>
+        <div class="visual-section">
+            <div class="visual-card">
+                <iframe width="100%" height="180" src="https://www.youtube.com/embed/s_o8dwzRlu4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="visual-card-content">
+                    <h3>Kubernetes Fundamentals</h3>
+                    <p>Complete beginner's guide to Kubernetes concepts</p>
+                </div>
+            </div>
+            
+            <div class="visual-card">
+                <iframe width="100%" height="180" src="https://www.youtube.com/embed/X48VuDVv0do" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="visual-card-content">
+                    <h3>Kubernetes Crash Course</h3>
+                    <p>Practical introduction to Kubernetes for beginners</p>
+                </div>
+            </div>
+            
+            <div class="visual-card">
+                <iframe width="100%" height="180" src="https://www.youtube.com/embed/QJ4fODH6DXI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="visual-card-content">
+                    <h3>Kubernetes Architecture</h3>
+                    <p>Deep dive into Kubernetes components and architecture</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <footer>
+        <div class="container">
+            <p>Kubernetes Learning Portal - Created to help you master container orchestration</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Module navigation
+        document.querySelectorAll('.module-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Get the module ID from the button's data attribute
+                const moduleId = this.getAttribute('data-module');
+                
+                // Hide all module details
+                document.querySelectorAll('.module-detail').forEach(detail => {
+                    detail.classList.remove('active');
+                });
+                
+                // Show the selected module
+                document.getElementById(moduleId).classList.add('active');
+                
+                // Scroll to the module content
+                document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
+                
+                // Mark as completed for progress tracking
+                if (!this.classList.contains('completed')) {
+                    this.classList.add('completed');
+                    updateModuleProgress(moduleId);
+                }
+            });
+        });
+        
+        // Progress tracking
+        let completedModules = new Set();
+        const totalModules = 5;
+        
+        function updateModuleProgress(moduleId) {
+            // Extract the module number
+            const moduleNumber = moduleId.replace('module', '');
+            completedModules.add(moduleNumber);
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const progressPercentage = (completedModules.size / totalModules) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>

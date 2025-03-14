@@ -1,0 +1,9 @@
+.interactive-demo a {
+    color: #54b4d3;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.interactive-demo a:hover {
+    color: #7bc9e2;
+}
